@@ -37,6 +37,33 @@ $ go get -u github.com/theodesp/go-object-pool
 
 ## Usage
 
+Provide the necessary interface implementations first and then
+create the Pool
+
+```go
+type ByteBufferObject struct {
+	buffer *bytes.Buffer
+}
+
+func (b *ByteBufferObject) Reset() {
+	b.buffer.Reset()
+}
+
+type ByteBufferFactory struct{}
+
+func (f ByteBufferFactory) Create() (PooledObject, error) {
+	return &ByteBufferObject{
+		buffer: bytes.NewBuffer(make([]byte, 1024)),
+	}, nil
+}
+
+factory := &ByteBufferFactory{}
+pool := NewFixedPool(16, factory)
+
+obj, _ := pool.Get()
+pool.Return(obj)
+```
+
 
 ## LICENCE
 Copyright © 2017 Theo Despoudis MIT license
