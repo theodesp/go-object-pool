@@ -10,7 +10,7 @@ debs:
 
 .PHONY: test
 test:
-	GOPATH=$(GOPATH) go test -race -gcflags -m
+	GOPATH=$(GOPATH) go test -race
 
 .PHONY: bench
 bench:
